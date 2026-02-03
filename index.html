@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>책 목록</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <h1>책 미리보기</h1>
+  <ul id="book-list"></ul>
+
+  <script src="script.js"></script>
+  <script>
+    const bookListEl = document.getElementById('book-list');
+
+    // 책 데이터 가져오기
+    for (let id in books) {
+      const li = document.createElement('li');
+      const a = document.createElement('a');
+      a.href = `book.html?id=${id}`;
+      a.textContent = books[id].title;
+      li.appendChild(a);
+      bookListEl.appendChild(li);
+    }
+  </script>
+</body>
+</html>

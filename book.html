@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>책 미리보기</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div id="book-container">
+    <h2 id="title"></h2>
+    <img id="page" src="" alt="책 페이지">
+    <div>
+      <button id="prev">◀ 이전</button>
+      <button id="next">다음 ▶</button>
+    </div>
+  </div>
+
+  <script src="script.js"></script>
+  <script>
+    const urlParams = new URLSearchParams(window.location.search);
+    const bookId = urlParams.get('id');
+    const book = books[bookId];
+
+    const titleEl = document.getElementById('title');
+    const pageEl = document.getElementById('page');
+    const prevBtn = document.getElementById('prev');
+    const nextBtn = document.getElementById('next');
+
+    let currentPage = 0;
+
+    function showPage(index) {
+      if (index < 0) index = 0;
+      if (index >= book.pages.length) index = book.pages.length - 1;
+      currentPage = index;
+      pageEl.src = book.pages[currentPage];
+    }
+
+    titleEl.textContent = book.title;
+    showPage(0);
+
+    prevBtn.addEventListener('click', () => showPage(currentPage - 1));
+    nextBtn.addEventListener('click', () => showPage(currentPage + 1));
+  </script>
+</body>
+</html>

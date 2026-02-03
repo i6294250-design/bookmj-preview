@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>관리자 페이지</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <h1>관리자 페이지</h1>
+
+  <h2>책 추가 / 페이지 업로드</h2>
+  <label>책 ID:</label>
+  <input type="text" id="bookId" placeholder="예: 1"><br>
+  <label>책 제목:</label>
+  <input type="text" id="bookTitle" placeholder="예: 예제 책 1"><br>
+  <label>페이지 URL (쉼표로 구분):</label>
+  <input type="text" id="pageUrls" placeholder="images/1/1.jpg,images/1/2.jpg"><br>
+  <button id="addBookBtn">책 등록 / 업데이트</button>
+
+  <h2>현재 책 목록</h2>
+  <ul id="currentBooks"></ul>
+
+  <script src="script.js"></script>
+  <script>
+    const bookIdInput = document.getElementById('bookId');
+    const bookTitleInput = document.getElementById('bookTitle');
+    const pageUrlsInput = document.getElementById('pageUrls');
+    const addBookBtn = document.getElementById('addBookBtn');
+    const currentBooksEl = document.getElementById('currentBooks');
+
+    function updateBookList() {
+      currentBooksEl.innerHTML = '';
+      for(let id in books){
+        const li = document.createElement('li');
+        li.textContent = `ID: ${id} | 제목: ${books[id].title} | 페이지 수: ${books[id].pages.length}`;
+        currentBooksEl.appendChild(li);
+      }
+    }
+
+    addBookBtn.addEventListener('click', () => {
+      const id = bookIdInput.value.trim();
+      const title = bookTitleInput.value.trim();
+      const urls = pageUrlsInput.value.trim().split(',').map(u => u.trim()).filter(u=>u!=='');
+      if(!id || !title || urls.length===0) return alert('모든 항목 입력 필요');
+
+      // books 객체 업데이트
+      books[id] = { title, pages: urls };
+      updateBookList();
+      alert('책 등록 / 업데이트 완료!');
+
+      // 참고: 여기는 브라우저에서 바로 books 객체만 업데이트됨.
+      // 실제 GitHub Pages 반영은 script.js 수정 후 다시 push 필요
+    });
+
+    // 초기 책 목록 표시
+    updateBookList();
+  </script>
+</body>
+</html>
